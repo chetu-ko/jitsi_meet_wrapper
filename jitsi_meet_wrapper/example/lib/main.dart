@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
 
@@ -48,74 +49,108 @@ class _MeetingState extends State<Meeting> {
     );
   }
 
-  Widget buildMeetConfig() {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          const SizedBox(height: 16.0),
-          _buildTextField(
-            labelText: "Server URL",
-            controller: serverText,
-            hintText: "Hint: Leave empty for meet.jitsi.si",
-          ),
-          const SizedBox(height: 16.0),
-          _buildTextField(labelText: "Room", controller: roomText),
-          const SizedBox(height: 16.0),
-          _buildTextField(labelText: "Subject", controller: subjectText),
-          const SizedBox(height: 16.0),
-          _buildTextField(labelText: "Token", controller: tokenText),
-          const SizedBox(height: 16.0),
-          _buildTextField(
-            labelText: "User Display Name",
-            controller: userDisplayNameText,
-          ),
-          const SizedBox(height: 16.0),
-          _buildTextField(
-            labelText: "User Email",
-            controller: userEmailText,
-          ),
-          const SizedBox(height: 16.0),
-          _buildTextField(
-            labelText: "User Avatar URL",
-            controller: userAvatarUrlText,
-          ),
-          const SizedBox(height: 16.0),
-          CheckboxListTile(
-            title: const Text("Audio Muted"),
-            value: isAudioMuted,
-            onChanged: _onAudioMutedChanged,
-          ),
-          const SizedBox(height: 16.0),
-          CheckboxListTile(
-            title: const Text("Audio Only"),
-            value: isAudioOnly,
-            onChanged: _onAudioOnlyChanged,
-          ),
-          const SizedBox(height: 16.0),
-          CheckboxListTile(
-            title: const Text("Video Muted"),
-            value: isVideoMuted,
-            onChanged: _onVideoMutedChanged,
-          ),
-          const Divider(height: 48.0, thickness: 2.0),
-          SizedBox(
-            height: 64.0,
-            width: double.maxFinite,
-            child: ElevatedButton(
-              onPressed: () => _joinMeeting(),
-              child: const Text(
-                "Join Meeting",
-                style: TextStyle(color: Colors.white),
-              ),
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateColor.resolveWith((states) => Colors.blue),
-              ),
+  Widget meetConfigForm() {
+    return Column(
+      children: <Widget>[
+        const SizedBox(height: 16.0),
+        _buildTextField(
+          labelText: "Server URL",
+          controller: serverText,
+          hintText: "Hint: Leave empty for meet.jitsi.si",
+        ),
+        const SizedBox(height: 16.0),
+        _buildTextField(labelText: "Room", controller: roomText),
+        const SizedBox(height: 16.0),
+        _buildTextField(labelText: "Subject", controller: subjectText),
+        const SizedBox(height: 16.0),
+        _buildTextField(labelText: "Token", controller: tokenText),
+        const SizedBox(height: 16.0),
+        _buildTextField(
+          labelText: "User Display Name",
+          controller: userDisplayNameText,
+        ),
+        const SizedBox(height: 16.0),
+        _buildTextField(
+          labelText: "User Email",
+          controller: userEmailText,
+        ),
+        const SizedBox(height: 16.0),
+        _buildTextField(
+          labelText: "User Avatar URL",
+          controller: userAvatarUrlText,
+        ),
+        const SizedBox(height: 16.0),
+        CheckboxListTile(
+          title: const Text("Audio Muted"),
+          value: isAudioMuted,
+          onChanged: _onAudioMutedChanged,
+        ),
+        const SizedBox(height: 16.0),
+        CheckboxListTile(
+          title: const Text("Audio Only"),
+          value: isAudioOnly,
+          onChanged: _onAudioOnlyChanged,
+        ),
+        const SizedBox(height: 16.0),
+        CheckboxListTile(
+          title: const Text("Video Muted"),
+          value: isVideoMuted,
+          onChanged: _onVideoMutedChanged,
+        ),
+        const Divider(height: 48.0, thickness: 2.0),
+        SizedBox(
+          height: 64.0,
+          width: double.maxFinite,
+          child: ElevatedButton(
+            onPressed: () => _joinMeeting(),
+            child: const Text(
+              "Join Meeting",
+              style: TextStyle(color: Colors.white),
+            ),
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateColor.resolveWith((states) => Colors.blue),
             ),
           ),
-          const SizedBox(height: 48.0),
-        ],
-      ),
+        ),
+        const SizedBox(height: 48.0),
+      ],
+    );
+  }
+
+  Widget buildMeetConfig() {
+    double width = MediaQuery.of(context).size.width;
+
+    return SingleChildScrollView(
+      child: kIsWeb
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: width * 0.30,
+                  child: meetConfigForm(),
+                ),
+                Container(
+                    width: width * 0.60,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                          color: Colors.white54,
+                          child: SizedBox(
+                            width: width * 0.60 * 0.70,
+                            height: width * 0.60 * 0.70,
+                            child: JitsiMeetConferencing(
+                              extraJS: const [
+                                // extraJs setup example
+                                '<script>function echo(){console.log("echo!!!")};</script>',
+                                '<script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>'
+                              ],
+                            ),
+                          )),
+                    ))
+              ],
+            )
+          : meetConfigForm(),
     );
   }
 
@@ -154,6 +189,14 @@ class _MeetingState extends State<Meeting> {
       userDisplayName: userDisplayNameText.text,
       userEmail: userEmailText.text,
       featureFlags: featureFlags,
+      webOptions: {
+        "roomName": roomText.text,
+        "width": "100%",
+        "height": "100%",
+        "enableWelcomePage": false,
+        "chromeExtensionBanner": null,
+        "userInfo": {"displayName": userDisplayNameText.text}
+      },
     );
 
     debugPrint("JitsiMeetingOptions: $options");

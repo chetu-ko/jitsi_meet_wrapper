@@ -82,6 +82,15 @@ class MethodChannelJitsiMeetWrapper extends JitsiMeetWrapperPlatformInterface {
     });
   }
 
+    @override
+  void executeCommand(String command, List<String> args) {}
+
+  @override
+  Widget buildView(List<String> extraJS) {
+    // return empty container for compatibily
+    return Container();
+  }
+
   void _initialize() {
     _eventChannel.receiveBroadcastStream().listen((message) {
       final data = message['data'];

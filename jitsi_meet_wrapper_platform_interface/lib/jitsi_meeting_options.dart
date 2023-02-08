@@ -14,6 +14,7 @@ class JitsiMeetingOptions {
   final String? userEmail;
   final String? userAvatarUrl;
   final Map<FeatureFlag, Object?>? featureFlags;
+  Map<String, dynamic>? webOptions; // options for web
   final Map<String, Object?>? configOverrides;
 
   JitsiMeetingOptions({
@@ -28,6 +29,7 @@ class JitsiMeetingOptions {
     this.userEmail,
     this.userAvatarUrl,
     this.featureFlags,
+    this.webOptions,
     this.configOverrides,
   });
 
@@ -52,6 +54,7 @@ class JitsiMeetingOptions {
           userDisplayName == other.userDisplayName &&
           userEmail == other.userEmail &&
           userAvatarUrl == other.userAvatarUrl &&
+          webOptions == other.webOptions &&
           const MapEquality().equals(featureFlags, other.featureFlags) &&
           const MapEquality().equals(configOverrides, other.configOverrides);
 
@@ -67,6 +70,7 @@ class JitsiMeetingOptions {
       userDisplayName.hashCode ^
       userEmail.hashCode ^
       userAvatarUrl.hashCode ^
+      webOptions.hashCode ^
       const MapEquality().hash(featureFlags) ^
       const MapEquality().hash(configOverrides);
 }
