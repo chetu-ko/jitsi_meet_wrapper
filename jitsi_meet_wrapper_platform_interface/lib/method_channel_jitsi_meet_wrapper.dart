@@ -8,7 +8,7 @@ import 'jitsi_meet_wrapper_platform_interface.dart';
 const MethodChannel _methodChannel = MethodChannel('jitsi_meet_wrapper');
 const EventChannel _eventChannel = EventChannel('jitsi_meet_wrapper_events');
 
-/// An implementation of [JitsiMeetPlatform] that uses method channels.
+/// An implementation of [JitsiMeetWrapperPlatformInterface] that uses method channels.
 class MethodChannelJitsiMeetWrapper extends JitsiMeetWrapperPlatformInterface {
   bool _eventChannelIsInitialized = false;
   JitsiMeetingListener? _listener;
@@ -82,7 +82,7 @@ class MethodChannelJitsiMeetWrapper extends JitsiMeetWrapperPlatformInterface {
     });
   }
 
-    @override
+  @override
   void executeCommand(String command, List<String> args) {}
 
   @override

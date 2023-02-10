@@ -33,10 +33,9 @@ class JitsiMeetingOptions {
     this.configOverrides,
   });
 
-
   @override
   String toString() {
-    return 'JitsiMeetingOptions{roomNameOrUrl: $roomNameOrUrl, serverUrl: $serverUrl, subject: $subject, token: $token, isAudioMuted: $isAudioMuted, isAudioOnly: $isAudioOnly, isVideoMuted: $isVideoMuted, userDisplayName: $userDisplayName, userEmail: $userEmail, userAvatarUrl: $userAvatarUrl, featureFlags: $featureFlags, configOverrides: $configOverrides}';
+    return 'JitsiMeetingOptions{roomNameOrUrl: $roomNameOrUrl, serverUrl: $serverUrl, subject: $subject, token: $token, isAudioMuted: $isAudioMuted, isAudioOnly: $isAudioOnly, isVideoMuted: $isVideoMuted, userDisplayName: $userDisplayName, userEmail: $userEmail, userAvatarUrl: $userAvatarUrl, featureFlags: $featureFlags,configOverrides: $configOverrides}';
   }
 
   @override
@@ -54,7 +53,7 @@ class JitsiMeetingOptions {
           userDisplayName == other.userDisplayName &&
           userEmail == other.userEmail &&
           userAvatarUrl == other.userAvatarUrl &&
-          webOptions == other.webOptions &&
+          const MapEquality().equals(webOptions, other.webOptions) &&
           const MapEquality().equals(featureFlags, other.featureFlags) &&
           const MapEquality().equals(configOverrides, other.configOverrides);
 

@@ -17,6 +17,7 @@ Nevertheless, please always create an issue and I will try to have a look.
 - [Configuration](#configuration)
     - [iOS](#ios)
     - [Android](#android)
+    - [Web](#web)
 - [Listening to meeting events](#listening-to-meeting-events)
 - [Known issues](#known-issues)
 
@@ -182,6 +183,37 @@ instructions [here](https://jitsi.github.io/handbook/docs/dev-guide/dev-guide-an
 
 <a name="listening-to-meeting-events"></a>
 
+### Web
+
+There is no much configurations needed to implement the web option in your flutter app. Just you need to add the below one line in
+your index.html file. See the example repository if you are unable to get it.
+
+<script src="https://meet.jit.si/external_api.js" type="application/javascript"></script>
+
+Next in your joinmeeting function you need to add these weboption lines.
+
+```dart
+webOptions: {
+  "roomName": roomText.text,
+  "width": "100%",
+  "height": "100%",
+  "enableWelcomePage": false,
+  "chromeExtensionBanner": null,
+  "userInfo": {"displayName": userDisplayNameText.text}
+},
+```
+Add these lines where you need the video conference in your webApp. Here you can give you own size as given in example.
+
+```dart
+  JitsiMeetConferencing(
+    extraJS: const [
+       // extraJs setup example
+       '<script>function echo(){console.log("echo!!!")};</script>',
+       '<script src="https://code.jquery.com/jquery-3.6.3.slim.js" integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc=" crossorigin="anonymous"></script>'
+    ],
+ ),
+```
+
 ## Listening to Meeting Events
 
 Take a look
@@ -195,6 +227,8 @@ Feels free to create a PR if one is missing. It is fairly straightforward to imp
 To listen to meeting events per meeting, pass in a `JitsiMeetingListener`
 to `joinMeeting`. The listener will automatically be removed when the conference is over
 (which is not `onConferenceTerminated`).
+
+**_NOTE:_**  onConferenceWillJoin listener will not work on WEB;
 
 ```dart
 await JitsiMeetWrapper.joinMeeting(

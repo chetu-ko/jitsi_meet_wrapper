@@ -131,23 +131,25 @@ class _MeetingState extends State<Meeting> {
                   child: meetConfigForm(),
                 ),
                 Container(
-                    width: width * 0.60,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Card(
-                          color: Colors.white54,
-                          child: SizedBox(
-                            width: width * 0.60 * 0.70,
-                            height: width * 0.60 * 0.70,
-                            child: JitsiMeetConferencing(
-                              extraJS: const [
-                                // extraJs setup example
-                                '<script>function echo(){console.log("echo!!!")};</script>',
-                                '<script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>'
-                              ],
-                            ),
-                          )),
-                    ))
+                  width: width * 0.60,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      color: Colors.white54,
+                      child: SizedBox(
+                        width: width * 0.60 * 0.70,
+                        height: width * 0.60 * 0.70,
+                        child: JitsiMeetConferencing(
+                          extraJS: const [
+                            // extraJs setup example
+                            '<script>function echo(){console.log("echo!!!")};</script>',
+                            '<script src="https://code.jquery.com/jquery-3.6.3.slim.js" integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc=" crossorigin="anonymous"></script>'
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
               ],
             )
           : meetConfigForm(),
@@ -175,9 +177,14 @@ class _MeetingState extends State<Meeting> {
   _joinMeeting() async {
     String? serverUrl = serverText.text.trim().isEmpty ? null : serverText.text;
 
-    Map<FeatureFlag, Object> featureFlags = {};
+    Map<FeatureFlag, Object> featureFlags = {
+      FeatureFlag.isAddPeopleEnabled: false,
+      FeatureFlag.isCallIntegrationEnabled: true,
+      FeatureFlag.isChatEnabled: false,
+    };
 
     // Define meetings options here
+    // will add more web options field in sooner
     var options = JitsiMeetingOptions(
       roomNameOrUrl: roomText.text,
       serverUrl: serverUrl,
@@ -200,6 +207,7 @@ class _MeetingState extends State<Meeting> {
     );
 
     debugPrint("JitsiMeetingOptions: $options");
+    
     await JitsiMeetWrapper.joinMeeting(
       options: options,
       listener: JitsiMeetingListener(

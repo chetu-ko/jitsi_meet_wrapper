@@ -1,0 +1,41 @@
+name: jitsi_meet_wrapper_web
+description: A new Flutter plugin project.
+version: 0.0.1
+publish_to: none
+homepage:
+
+environment:
+  sdk: '>=2.18.5 <3.0.0'
+  flutter: ">=2.5.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.0.2
+  jitsi_meet_wrapper_platform_interface: 
+    path: ../jitsi_meet_wrapper_platform_interface/
+  
+  flutter_web_plugins:
+    sdk: flutter
+  js: ^0.6.4
+  meta: ^1.8.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+  # This section identifies this Flutter project as a plugin project.
+  # The 'pluginClass' and Android 'package' identifiers should not ordinarily
+  # be modified. They are used by the tooling to maintain consistency when
+  # adding or updating assets for this project.
+  plugin:
+    platforms:
+      web:
+        pluginClass: JitsiWrapperPlugin
+        fileName: jitsi_meet_wrapper_web_plugin.dart
