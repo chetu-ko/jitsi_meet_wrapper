@@ -18,12 +18,12 @@ class JitsiMeetWrapper {
     required JitsiMeetingOptions options,
     JitsiMeetingListener? listener,
   }) async {
-    // assert(options.roomNameOrUrl.trim().isNotEmpty, "room is empty");
+    assert(options.roomNameOrUrl.trim().isNotEmpty, "room is empty");
 
-    // if (options.serverUrl?.isNotEmpty ?? false) {
-    //   assert(Uri.parse(options.serverUrl!).isAbsolute,
-    //       "URL must be of the format <scheme>://<host>[/path], like https://someHost.com");
-    // }
+    if (options.serverUrl?.isNotEmpty ?? false) {
+      assert(Uri.parse(options.serverUrl!).isAbsolute,
+          "URL must be of the format <scheme>://<host>[/path], like https://someHost.com");
+    }
 
     return await JitsiMeetWrapperPlatformInterface.instance
         .joinMeeting(options: options, listener: listener);

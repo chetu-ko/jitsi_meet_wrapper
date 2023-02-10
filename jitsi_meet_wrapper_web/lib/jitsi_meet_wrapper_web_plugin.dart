@@ -57,8 +57,7 @@ class JitsiWrapperPlugin extends JitsiMeetWrapperPlatformInterface {
 
     // setup listeners
     if (listener != null) {
-      // NOTE: `onConferenceWillJoin` is not supported or nof found event in web
-      // add geeric listener
+      // NOTE: `onConferenceWillJoin` is not supported or not found event in web
       _addGenericListeners(listener);
 
       // force to dispose view when close meeting
