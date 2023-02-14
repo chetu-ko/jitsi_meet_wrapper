@@ -180,7 +180,6 @@ class _MeetingState extends State<Meeting> {
     Map<FeatureFlag, Object> featureFlags = {
       FeatureFlag.isAddPeopleEnabled: false,
       FeatureFlag.isCallIntegrationEnabled: true,
-      FeatureFlag.isChatEnabled: false,
     };
 
     // Define meetings options here
@@ -207,7 +206,7 @@ class _MeetingState extends State<Meeting> {
     );
 
     debugPrint("JitsiMeetingOptions: $options");
-    
+
     await JitsiMeetWrapper.joinMeeting(
       options: options,
       listener: JitsiMeetingListener(
@@ -248,10 +247,11 @@ class _MeetingState extends State<Meeting> {
             "requestId: $requestId",
           );
         },
-        onChatMessageReceived: (senderId, message, isPrivate) {
+        onChatMessageReceived: (senderId, message, isPrivate, timeStamp) {
           debugPrint(
             "onChatMessageReceived: senderId: $senderId, message: $message, "
-            "isPrivate: $isPrivate",
+            "isPrivate: $isPrivate"
+            " TimeStamp': $timeStamp",
           );
         },
         onChatToggled: (isOpen) => debugPrint("onChatToggled: isOpen: $isOpen"),

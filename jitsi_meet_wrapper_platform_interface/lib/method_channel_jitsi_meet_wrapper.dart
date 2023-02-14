@@ -139,6 +139,7 @@ class MethodChannelJitsiMeetWrapper extends JitsiMeetWrapperPlatformInterface {
             data["senderId"],
             data["message"],
             parseBool(data["isPrivate"]),
+            DateTime.now().toUtc().toString(),
           );
           break;
         case "chatToggled":

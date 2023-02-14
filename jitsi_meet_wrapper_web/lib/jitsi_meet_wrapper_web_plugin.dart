@@ -159,10 +159,12 @@ class JitsiWrapperPlugin extends JitsiMeetWrapperPlatformInterface {
         'privateMessage': message.privateMessage,
       };
       debugPrint("genericListeners ${listener!.onChatMessageReceived}");
+      ///this Time stamp time is when you recieve the message in event.
       listener?.onChatMessageReceived?.call(
         data["from"],
         data["message"],
         data["privateMessage"],
+        DateTime.now().toUtc().toString(),
       );
     }));
     api!.on("chatUpdated", allowInterop((message) {
@@ -181,9 +183,9 @@ class JitsiWrapperPlugin extends JitsiMeetWrapperPlatformInterface {
     _eventChannelIsInitialized = true;
   }
 
-  // Required because Android SDK returns boolean values as Strings
-// and iOS SDK returns boolean values as Booleans.
-// (Making this an extension does not work, because of dynamic.)
+ // Required because Android SDK returns boolean values as Strings
+ // and iOS SDK returns boolean values as Booleans.
+ // (Making this an extension does not work, because of dynamic.)
   bool parseBool(dynamic value) {
     if (value is bool) return value;
     if (value is String) return value == 'true';
