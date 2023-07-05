@@ -177,7 +177,7 @@ class _MeetingState extends State<Meeting> {
   _joinMeeting() async {
     String? serverUrl = serverText.text.trim().isEmpty ? null : serverText.text;
 
-    Map<FeatureFlag, Object> featureFlags = {
+    Map<String, Object> featureFlags = {
       FeatureFlag.isAddPeopleEnabled: false,
       FeatureFlag.isCallIntegrationEnabled: true,
     };
