@@ -177,11 +177,8 @@ class _MeetingState extends State<Meeting> {
   _joinMeeting() async {
     String? serverUrl = serverText.text.trim().isEmpty ? null : serverText.text;
 
-    Map<String, Object> featureFlags = {
-      FeatureFlag.isAddPeopleEnabled: false,
-      FeatureFlag.isCallIntegrationEnabled: true,
-    };
-
+    Map<String, Object> featureFlags = {};
+    
     // Define meetings options here
     // will add more web options field in sooner
     var options = JitsiMeetingOptions(
